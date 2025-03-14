@@ -1,0 +1,36 @@
+table ref_user_tags
+	lineageTag: a9ac1f29-0185-4949-9b4f-83e4f58c3585
+
+	column job_position_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a0b41278-d3c1-45d0-9f10-d2c95798b5c9
+		summarizeBy: none
+		sourceColumn: job_position_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column tag
+		dataType: string
+		lineageTag: d7e3ee69-4128-4fd1-8cb6-183d51ddec50
+		summarizeBy: none
+		sourceColumn: tag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ref_user_tags = m
+		mode: import
+		queryGroup: References
+		source =
+				let
+				    Source = Web.BrowserContents("https://drive.google.com/file/d/1MgKpqRAUBYJKGh3jSUI_Kmzvbg9MAVes/view?usp=sharing"),
+				    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(1)"}, {"Column2", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(2)"}}, [RowSelector="TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR"]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_position_id", Int64.Type}, {"tag", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

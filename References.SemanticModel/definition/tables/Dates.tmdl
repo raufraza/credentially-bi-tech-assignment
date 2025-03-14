@@ -1,0 +1,56 @@
+table Dates
+	lineageTag: 73e62dc6-d45a-4e33-976a-244d6b15f2a4
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: dd/mm/yyyy
+		lineageTag: 1ba586d2-375f-4fb7-9882-9b98e79c355d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Year = YEAR(Dates[Date])
+		formatString: 0
+		lineageTag: f8a0bf09-00bd-49a4-941f-dd565c66eb94
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year' = FORMAT(Dates[Date], "mmm YYYY")
+		lineageTag: cfc1b2eb-e21a-4dfa-aaaa-9dcd6455b7a1
+		summarizeBy: none
+		sortByColumn: MonthYearId
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthYearId = Dates[Year] * 100 + MONTH(Dates[Date])
+		formatString: 0
+		lineageTag: 11772f7b-b57b-41ac-be2e-96475696006c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstDayofMonth = DATE(Dates[Year], MONTH(Dates[Date]), 1)
+		formatString: dd/mm/yyyy
+		lineageTag: 04b05671-bf8b-41c9-b09f-d10ed04111f2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition Dates = calculated
+		mode: import
+		source = CALENDAR(DATE(YEAR(MIN(ref_references[ref_requested_date])), 1, 1), TODAY())
+
+	annotation PBI_Id = 2af5f87c75274bb98f7a4a136148fa4b
+

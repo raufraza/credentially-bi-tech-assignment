@@ -1,0 +1,62 @@
+table ref_job_positions
+	lineageTag: c6ad059b-91b3-4e83-b2a0-1919aec754db
+
+	column job_position_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f8a28cd7-9549-4e08-9339-8c51d9daea5a
+		summarizeBy: none
+		sourceColumn: job_position_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column role
+		dataType: string
+		lineageTag: 3ee17ba0-d41b-4b6f-87d6-d4cbe7585116
+		summarizeBy: none
+		sourceColumn: role
+
+		annotation SummarizationSetBy = Automatic
+
+	column job_position_status
+		dataType: string
+		lineageTag: 721b37cb-e190-44a1-b55a-8fbea0b9db3f
+		summarizeBy: none
+		sourceColumn: job_position_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column signed_off
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d99444c8-e213-4702-a415-f1aa8a7e074c
+		summarizeBy: none
+		sourceColumn: signed_off
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisation_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 95dfaf70-178c-45c6-a574-b32fa76730a1
+		summarizeBy: sum
+		sourceColumn: organisation_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ref_job_positions = m
+		mode: import
+		queryGroup: References
+		source =
+				let
+				    Source = Web.BrowserContents("https://drive.google.com/file/d/1R1cTPJjRB5GJCy5NJChedoRSL9-_z7cy/view?usp=sharing"),
+				    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(1)"}, {"Column2", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(2)"}, {"Column3", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(3)"}, {"Column4", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(4)"}, {"Column5", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(5)"}}, [RowSelector="TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR"]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_position_id", Int64.Type}, {"role", type text}, {"job_position_status", type text}, {"signed_off", type logical}, {"organisation_id", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
