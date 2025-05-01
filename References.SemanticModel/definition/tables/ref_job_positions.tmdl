@@ -49,10 +49,9 @@ table ref_job_positions
 		queryGroup: References
 		source =
 				let
-				    Source = Web.BrowserContents("https://drive.google.com/file/d/1o8G-7nd14lUdOrCzc2AU9sO_dXvDz2lp/view?usp=sharing"),
-				    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(1)"}, {"Column2", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(2)"}, {"Column3", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(3)"}, {"Column4", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(4)"}, {"Column5", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(5)"}}, [RowSelector="TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR"]),
-				    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_position_id", Int64.Type}, {"role", type text}, {"job_position_status", type text}, {"signed_off", type logical}, {"organisation_id", Int64.Type}})
+				    Source = PostgreSQL.Database("dpg-d09mf0muk2gs73dl8nm0-a.frankfurt-postgres.render.com:5432", "drfocused_mp"),
+				    public_ref_job_positions = Source{[Schema="public",Item="ref_job_positions"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(public_ref_job_positions,{{"signed_off", type logical}})
 				in
 				    #"Changed Type"
 

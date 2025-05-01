@@ -11,7 +11,7 @@
         {
           "location": {
             "x": 1180.9240689139137,
-            "y": 84.621262126292038
+            "y": 151.93189318943809
           },
           "nodeIndex": "Dates",
           "nodeLineageTag": "73e62dc6-d45a-4e33-976a-244d6b15f2a4",
@@ -24,7 +24,7 @@
         {
           "location": {
             "x": 1423.6646073363331,
-            "y": 737.5871781754297
+            "y": 804.89780923857575
           },
           "nodeIndex": "ref_references",
           "nodeLineageTag": "b885eee8-b7ee-4f2f-9ec6-ed55be4ca767",
@@ -37,7 +37,7 @@
         {
           "location": {
             "x": 677.7439127812786,
-            "y": 892.610978851545
+            "y": 959.92160991469109
           },
           "nodeIndex": "ref_assigned_to",
           "nodeLineageTag": "a23d70a0-906b-45e9-b6eb-f2e54271fa06",
@@ -50,7 +50,7 @@
         {
           "location": {
             "x": 421.23416105618981,
-            "y": 695.31908739804931
+            "y": 762.62971846119535
           },
           "nodeIndex": "ref_user_tags",
           "nodeLineageTag": "a9ac1f29-0185-4949-9b4f-83e4f58c3585",
@@ -63,7 +63,7 @@
         {
           "location": {
             "x": 879.77881885447414,
-            "y": 564.85186885622193
+            "y": 632.162499919368
           },
           "nodeIndex": "ref_job_positions",
           "nodeLineageTag": "c6ad059b-91b3-4e83-b2a0-1919aec754db",

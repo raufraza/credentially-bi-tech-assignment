@@ -274,15 +274,64 @@ table ref_references
 
 		annotation SummarizationSetBy = Automatic
 
+	column requested_to_reviewed_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 31e40869-eec8-4f09-9626-6adfa1b69822
+		summarizeBy: sum
+		sourceColumn: requested_to_reviewed_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_to_compliant_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 1906c848-5dc3-4fbb-b228-a28e9979dae9
+		summarizeBy: sum
+		sourceColumn: requested_to_compliant_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_to_completed_category
+		dataType: string
+		lineageTag: 9fb2884c-3945-411f-b837-54ba671bdf7f
+		summarizeBy: none
+		sourceColumn: requested_to_completed_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column completed_to_reviewed_category
+		dataType: string
+		lineageTag: 3ca37f9b-3613-443a-b375-4a7c0d7fff60
+		summarizeBy: none
+		sourceColumn: completed_to_reviewed_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_to_reviewed_category
+		dataType: string
+		lineageTag: 28fffcf8-e23d-4649-8175-8cf94d2eb78f
+		summarizeBy: none
+		sourceColumn: requested_to_reviewed_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_to_compliant_category
+		dataType: string
+		lineageTag: 8af4e4f7-15d3-4e37-abe8-6a9aa4663f24
+		summarizeBy: none
+		sourceColumn: requested_to_compliant_category
+
+		annotation SummarizationSetBy = Automatic
+
 	partition ref_references = m
 		mode: import
 		queryGroup: References
 		source =
 				let
-				    Source = Web.BrowserContents("https://drive.google.com/file/d/1mQj30vUWHMDdVPJVJk4qLh9jD3BYCvSM/view?usp=sharing"),
-				    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(1)"}, {"Column2", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(2)"}, {"Column3", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(3)"}, {"Column4", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(4)"}, {"Column5", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(5)"}, {"Column6", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(6)"}, {"Column7", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(7)"}, {"Column8", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(8)"}, {"Column9", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(9)"}, {"Column10", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(10)"}, {"Column11", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(11)"}, {"Column12", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(12)"}, {"Column13", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(13)"}, {"Column14", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(14)"}, {"Column15", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(15)"}, {"Column16", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(16)"}, {"Column17", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(17)"}, {"Column18", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(18)"}, {"Column19", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(19)"}, {"Column20", "TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR > :nth-child(20)"}}, [RowSelector="TABLE.ndfHFb-c4YZDc-hDEnYe-Df1ZY-bN97Pc > * > TR"]),
-				    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_position_id", Int64.Type}, {"ref_requested_at", type datetime}, {"ref_requested_date", type date}, {"ref_completed_at", type datetime}, {"ref_completed_date", type date}, {"ref_approved_at", type datetime}, {"ref_approved_date", type date}, {"is_mandatory", type logical}, {"ref_package_name", type text}, {"ref_form_name", type text}, {"cr_created_at", type datetime}, {"marked_compliant_at", type datetime}, {"requested_to_completed_time", type number}, {"completed_to_reviewed_time", type number}, {"requested_to_reviewed_time", type number}, {"requested_to_compliant_time", type number}, {"ref_status", type text}, {"ref_approval_status", type text}, {"requested_to_completed_days", Int64.Type}, {"completed_to_reviewed_days", Int64.Type}})
+				    Source = PostgreSQL.Database("dpg-d09mf0muk2gs73dl8nm0-a.frankfurt-postgres.render.com:5432", "drfocused_mp"),
+				    public_ref_references = Source{[Schema="public",Item="ref_references"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(public_ref_references,{{"requested_to_completed_time", type number}, {"completed_to_reviewed_time", type number}, {"requested_to_reviewed_time", type number}, {"requested_to_compliant_time", type number}, {"requested_to_completed_days", Int64.Type}, {"completed_to_reviewed_days", Int64.Type}, {"requested_to_reviewed_days", Int64.Type}, {"requested_to_compliant_days", Int64.Type}})
 				in
 				    #"Changed Type"
 
